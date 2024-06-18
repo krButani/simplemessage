@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:simplemessage/bloc/userblock/user_event.dart';
 import 'package:simplemessage/bloc/userblock/user_state.dart';
-import 'package:simplemessage/config/krButani/all.dart';
 import 'package:simplemessage/services/firestore_service.dart';
 
 
@@ -18,21 +17,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(UserLoaded(Users));
       } catch (e) {
         emit(UsersError('Failed to load users.'));
-      }
-    });
-
-
-
-    on<SyncUsers>((event, emit) async {
-      try {
-        emit(UserLoading());
-        for(var i=0;i<event.users.length;i++) {
-          await _firestoreService.addUser(event.users[i]);
-        }
-        emit(UsersOperationSuccess('User added successfully.'));
-      } catch (e) {
-
-        emit(UsersError('Failed to add user.'));
       }
     });
 

@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:simplemessage/bloc/network/network_bloc.dart';
-import 'package:simplemessage/bloc/network/network_state.dart';
+
 import 'package:simplemessage/bloc/userblock/user_bloc.dart';
 import 'package:simplemessage/bloc/userblock/user_event.dart';
 import 'package:simplemessage/bloc/userblock/user_state.dart';
@@ -29,7 +27,6 @@ class _HomeState extends State<Home> {
   late KSize k;
   final UserTextBoxController sch = UserTextBoxController();
 
-  late DB db;
   bool isSync = false;
   @override
   void initState() {
@@ -41,56 +38,14 @@ class _HomeState extends State<Home> {
     );
     ThemeClass.setRotations();
 
-    db = DB();
+
     BlocProvider.of<UserBloc>(context).add(LoadUsers());
 
-
     super.initState();
-    createdb();
-  }
-
-  void createdb() async {
-    await db.onCreate([
-      "users",
-    ]);
-    checkSync();
 
   }
-  void checkSync() async {
-    if(context.read<NetworkBloc>().state.isConnected == true) {
-      List<Map> mp = await db
-          .getData("SELECT * FROM ${db.workinglist[0].tblnm}")
-          .then((mp) {
-        return mp;
-      });
 
-      // it return array of object
-      if (mp.length > 0) {
-        List<Users> list = [];
-        for (int i = 0; i < mp.length; i++) {
-          list.add(Users(
-            id: mp[i]['storeid'].toString(),
-            firstname: mp[i]['firstname'].toString(),
-            lastname:  mp[i]['lastname'].toString(),
-            email: mp[i]['email'].toString(),
-            message: mp[i]['message'].toString(),
-          ));
 
-        }
-
-        BlocProvider.of<UserBloc>(context).add(SyncUsers(list));
-
-      }
-    }
-  }
-
-  void deleteAllRecord() async {
-    int count = await db
-        .delete("DELETE FROM ${db.workinglist[0].tblnm}")
-        .then((value) {
-      return value;
-    });
-  }
   bool validate() {
     bool status = false;
     // remove validation
@@ -121,7 +76,7 @@ class _HomeState extends State<Home> {
   void savedata() async {
 
       if(validate()==false) {
-        if(context.read<NetworkBloc>().state.isConnected == true) {
+
           final user = Users(
             id: DateTime.now().toString(),
             firstname: sch.firstnameTH.tc.text.toString().trim(),
@@ -132,32 +87,6 @@ class _HomeState extends State<Home> {
           BlocProvider.of<UserBloc>(context).add(AddUser(user));
           kbNToast("Users message sent Successfully.", 's', context);
           resetfields();
-
-        } else {
-          // save db
-          List<String> col = db.workinglist[0].col;
-          List<String> tval = [];
-
-          tval.add(DateTime.now().toString());
-          tval.add(sch.firstnameTH.tc.text.toString().trim());
-          tval.add(sch.lastnameTH.tc.text.toString().trim());
-          tval.add(sch.emailTH.tc.text.toString().trim());
-          tval.add(sch.messageTH.tc.text.toString().trim());
-          String d = db.workinglist[1].getInsertRecord(col, tval);
-          if (d != null && d != "") {
-            int k = await db.save(d).then((value) => value);
-            if (k == 0) {
-              kbNToast(
-                  "We are unable to send message. Please try again.", 'e', context);
-            } else {
-              kbNToast("Users message sent Successfully.", 's', context);
-              resetfields();
-            }
-          }
-        }
-
-      } else {
-        setState(() {});
       }
   }
 
@@ -174,11 +103,6 @@ class _HomeState extends State<Home> {
     k = new KSize(context, 0);
     final UserBloc _UserBloc = BlocProvider.of<UserBloc>(context);
   
-    return BlocBuilder<NetworkBloc, NetworkState>(
-      builder: (context, state) {
-      if (state.isConnected) {
-        checkSync();
-      }
     return SafeArea(
       child: Scaffold(
         backgroundColor: kbgColor,
@@ -195,7 +119,7 @@ class _HomeState extends State<Home> {
                   padding:  EdgeInsets.symmetric(horizontal: k.w(5)),
                   child: Text('User Details', style: ThemeClass.setStyle(
                       fontWeight: FontWeight.w900,
-                    fontSize: 36.kp
+                      fontSize: 36.kp
                   ),),
                 ),
                 SizedBox(height: k.h(2),),
@@ -211,7 +135,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Container(
-                  width: k.w(100),
+                    width: k.w(100),
                     padding: EdgeInsets.symmetric(vertical: k.h(1)),
                     child: TextBoxUi(k:k,sch: sch.emailTH, title: "E-Mail Address",)),
                 Container(
@@ -222,17 +146,17 @@ class _HomeState extends State<Home> {
                     width: k.w(100),
                     padding: EdgeInsets.symmetric(vertical: k.h(1) ,horizontal: k.w(5)),
                     child: ElevatedButton(onPressed: ()   {
-                         savedata();
+                      savedata();
                     }, child: Text("SUBMIT", style: ThemeClass.setStyle(
-                      textColor: kbgColor,
-                      fontWeight: FontWeight.bold
+                        textColor: kbgColor,
+                        fontWeight: FontWeight.bold
                     ),),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: textColor,
-                        padding: EdgeInsets.symmetric(vertical: k.h(1.5)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(k.w(2)))
-                        )
+                          backgroundColor: textColor,
+                          padding: EdgeInsets.symmetric(vertical: k.h(1.5)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(k.w(2)))
+                          )
                       ),
                     )),
                 SizedBox(height: k.h(3),),
@@ -265,9 +189,6 @@ class _HomeState extends State<Home> {
                         );
                       } else if (state is UsersOperationSuccess) {
                         _UserBloc.add(LoadUsers()); // Reload todos
-                        if(isSync) {
-                          deleteAllRecord();
-                        }
                         return Container(); // Or display a success message
                       } else if (state is UsersError) {
                         return Container();
@@ -281,11 +202,9 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-      
+
       ),
     );
-  },
-);
   }
 
 }

@@ -10,11 +10,6 @@ class AddUser extends UserEvent {
 
   AddUser(this.user);
 }
-class SyncUsers extends UserEvent {
-  final List<Users> users;
-
-  SyncUsers(this.users);
-}
 
 class UpdateUser extends UserEvent {
   final Users user;

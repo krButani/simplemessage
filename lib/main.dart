@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simplemessage/bloc/network/network_bloc.dart';
-import 'package:simplemessage/bloc/network/network_event.dart';
 import 'package:simplemessage/bloc/userblock/user_bloc.dart';
 import 'package:simplemessage/config/krButani/all.dart';
 import 'package:simplemessage/firebase_options.dart';
@@ -25,9 +23,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NetworkBloc>(
-          create: (context) => NetworkBloc()..add(NetworkObserve()),
-        ),
         BlocProvider<UserBloc>(
           create: (context) => UserBloc(FirestoreService()),
         ),

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
@@ -14,7 +13,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 
 part 'lang.dart';
-part 'DB.dart';
 part 'themeclass.dart';
 
 
