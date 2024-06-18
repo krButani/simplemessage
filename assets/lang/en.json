@@ -1,0 +1,7 @@
+{
+  "appname": "Simple Message",
+  "firstname_required": "Firstname is required",
+  "lastname_required": "Lastname is required",
+  "email_required": "E-Mail Address is required",
+  "message_required": "Message is required"
+}

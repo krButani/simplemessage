@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934264846934",
+    "project_id": "simplemessage-9f676",
+    "storage_bucket": "simplemessage-9f676.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934264846934:android:60f69cbf5b0790eb4199f7",
+        "android_client_info": {
+          "package_name": "in.krbutani.simple.message.simplemessage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxY4XeKUIqAVEpb6138IivjqxITZK81Mk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
