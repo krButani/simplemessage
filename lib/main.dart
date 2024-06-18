@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplemessage/bloc/userblock/user_bloc.dart';
+import 'package:simplemessage/bloc/userfrom/userfrom_bloc.dart';
 import 'package:simplemessage/config/krButani/all.dart';
 import 'package:simplemessage/firebase_options.dart';
 import 'package:simplemessage/services/firestore_service.dart';
@@ -25,6 +26,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<UserBloc>(
           create: (context) => UserBloc(FirestoreService()),
+        ),
+        BlocProvider<UserfromBloc>(
+          create: (context) => UserfromBloc(),
         ),
       ],
       child: MaterialApp(

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:simplemessage/bloc/userblock/user_event.dart';
 import 'package:simplemessage/bloc/userblock/user_state.dart';
 import 'package:simplemessage/services/firestore_service.dart';
